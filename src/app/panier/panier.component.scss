@@ -1,0 +1,28 @@
+.box {
+    border: 1px solid black;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 12px 2xp 8px;
+    box-shadow: 0px 0px 10px black;
+    margin: 5px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.budget-done {
+    background-color: rgb(21, 100, 146);
+    border: 1px solid black;
+    width: 120px;
+    border-radius: 10px;
+}
+
+.budget-insuffisant {
+    background-color: rgb(231, 107, 107);
+}
+
+.align {
+    align-items: center;
+    display: flex;
+}

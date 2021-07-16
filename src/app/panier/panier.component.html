@@ -1,0 +1,30 @@
+<div [class]="classBudget">
+    <div class="align">
+        <mat-icon>attach_money</mat-icon>
+        : {{wallet}}
+    </div>
+</div>
+
+
+<div *ngFor="let materiel of materielsPanier; let i=index" class="d-flex">
+    <div class="box">
+        <img [src]="materiel.materiels.imgUrl" alt="">
+        <p>
+            {{materiel.nombreDeCommande}} x {{materiel.materiels.type}} {{materiel.materiels.mark}} <br>{{materiel.materiels.description}}
+        </p>
+    </div>
+    <div class="btn">
+        <button mat-raised-button>{{materiel.materiels.price}} £</button>
+    </div>
+    <button mat-stroked-button color="primary" (click)="removeOneMateriel(i)">
+        <mat-icon>
+            remove_circle
+        </mat-icon>
+    </button>
+
+    <button (click)="removeAllMateriel(i)">
+        <mat-icon>
+            delete
+        </mat-icon>
+    </button>
+</div>

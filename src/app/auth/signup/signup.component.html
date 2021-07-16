@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="sign-container">
+        <form [formGroup]="userSignup" (ngSubmit)="onSubmit()">
+            <div class="form-grp">
+                <label for="name">Name</label>
+                <br>
+                <input type="text" id="name" formControlName="name">
+            </div>
+
+            <div class="form-grp">
+                <label for="lastName">Last Name</label>
+                <br>
+                <input type="text" id="lastName" formControlName="lastName">
+            </div>
+
+            <div class="form-grp">
+                <label for="email">Email</label>
+                <br>
+                <input type="text" id="email" formControlName="email">
+            </div>
+
+            <div class="form-grp">
+                <label for="password">Password</label>
+                <br>
+                <input type="password" id="password" formControlName="password">
+            </div>
+
+            <button class="btn-submit" mat-flat-button color="accent" (click)="onSignUp()">Inscription</button>
+
+        </form>
+    </div>
+
+</div>
