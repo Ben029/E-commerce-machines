@@ -1,23 +1,30 @@
 <div class="row">
     <div class="col-2">
-
-        <div class="profil-info">
-            <div>
-                <img class="img-profil" [src]="image" alt="">
+        <div class="d-fix">
+            <div class="profil-info">
+                <div>
+                    <img class="img-profil" [src]="user.image" alt="">
+                </div>
+                <h3 class="name-profil">{{user.name}}</h3>
             </div>
-            <h3 class="name-profil">{{name}}</h3>
-        </div>
 
-        <div>
-            <button mat-button routerLink="materiels-list">
-                Listes des materiels
-            </button>
-        </div>
+            <div>
+                <button mat-button routerLink="materiel-form">
+                    Ajouter un nouveau materiel
+                </button>
+            </div>
 
-        <div>
-            <button mat-button routerLink="panier">
-                Votre panier
-            </button>
+            <div>
+                <button mat-button routerLink="materiels-list">
+                    Listes des materiels
+                </button>
+            </div>
+
+            <div>
+                <button mat-button routerLink="panier">
+                    Votre panier
+                </button>
+            </div>
         </div>
     </div>
 
@@ -31,7 +38,7 @@
             <div>
                 <p>Description : {{materiel.description}}</p>
                 <p>Nombre aux stocks : {{materiel.nbrInStock}} </p>
-                <button mat-raised-button color="accent" (click)="addPanier(i)">
+                <button mat-raised-button color="accent" (click)="addPanier(materiel._id)">
                     <!-- <span>Ajouter au panier</span> -->
                     <mat-icon>
                         add_shopping_cart
@@ -41,7 +48,9 @@
         </div>
     </div>
     <div *ngIf="authStatus" class="col-3 br">
-        <h2 class="text-center">Votre panier</h2>
-        <app-panier></app-panier>
+        <div class="d-fix">
+            <h2 class="text-center">Votre panier</h2>
+            <app-panier></app-panier>
+        </div>
     </div>
 </div>

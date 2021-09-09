@@ -31,32 +31,30 @@ export class SigninComponent implements OnInit {
       }
     );
     this.isAuthentified = this.authService.isAuthentified;
-    // this.userSubscription = this.userService.userSubject.subscribe(
-    //   (user: User) => {
-    //     this.user = user;
-    //     console.log('USER : ' + this.user);
-    //   }
-    // );
-    // this.userService.emitUserSubject(this.user);
   }
 
   onSignIn() {
     const email = this.userSignin.get('email')?.value;
     const password = this.userSignin.get('password')?.value;
-    this.authService.signIn(email, password).then(
+    alert('caca')
+    this.authService.signIn(email, password).then(  
       (dataUser: any) => {
-        console.log('data user : ', dataUser);
+        // console.log( dataUser.user.panier);
+        // console.log('datadata : ', dataUser.user.panier)
         this.user = dataUser.user;
-        console.log('user ato am onsign in: ', this.user)
+        // console.log('dsdsdsd : ' , this.user.panier);
+        
+        // console.log('user ato am onsign in: ', this.user)
         console.log('\n')
         this.isAuthentified = true;
         this.authService.isAuthentified = this.isAuthentified;
-
+        this.authService.emitStateSubject(this.isAuthentified);
         this.userService.emitUserSubject(this.user);
-        console.log('Observable : ', this.userService.user);
+        // console.log('Observable : ', this.userService.user);
         this.router.navigate(['materiels-list']);
       }
-    );
+    )
+    .catch(error => {console.log('error signin : ' + error)})
 
   }
 

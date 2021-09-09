@@ -1,0 +1,18 @@
+/*
+Theme Name: ontm
+Theme URI: 
+Author: Agence Interactive
+Author URI:
+Template: ai
+Description: ontm
+Version: 0.1
+License: 
+License URI: 
+*/
+
+img.alignright { float: right; margin: 0 0 1em 1em; }
+img.alignleft { float: left; margin: 0 1em 1em 0; }
+img.aligncenter { display: block; margin-left: auto; margin-right: auto; }
+.alignright { float: right; }
+.alignleft { float: left; }
+.aligncenter { display: block; margin-left: auto; margin-right: auto; }

@@ -36,9 +36,9 @@ export class AuthService {
     this.isAuthentified = false;
   }
 
-  // emitUserSubject() {
-  //   return this.
-  // }
+  emitStateSubject(authenticated : boolean) {
+    return this.authSubject.next(authenticated)
+  }
 }
 
   

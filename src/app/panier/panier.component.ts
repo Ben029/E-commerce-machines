@@ -14,53 +14,60 @@ import { Panier } from '../models/panier.model';
 })
 export class PanierComponent implements OnInit {
 
-  user : User;
+  user: User;
   //contenant les materiels dans le panier du client
-  panier: any[];
+  // panier: Panier;
 
-  materiels :  Material[];
-  materielsPanier : Panier[];
-  
+  materiels: Material[];
+  // materielsPanier: Panier;
+
   //stockera le wallet du client
-  wallet : number = 0;
+  wallet: number = 0;
   //contenant le prix total des materiels dans le panier
-  total : number = 0;
+  total: number = 0;
   classBudget: string;
-  userSubscription : Subscription = new Subscription();
-  materielsSubscription : Subscription = new Subscription();
-  nombreInPanierSubscription : Subscription = new Subscription();
-  nombre : number;
-  
+  userSubscription: Subscription = new Subscription();
+  materielsSubscription: Subscription = new Subscription();
+  nombreInPanierSubscription: Subscription = new Subscription();
+  nombre: number;
+
 
 
   constructor(private userService: UserService, private materielsService: MaterielsService) { }
 
   ngOnInit() {
-    this.userSubscription = this.userService.userSubject.subscribe(
-      (user: User|null) => {
-        if(!user) return;
-        this.user = user;
-        this.materielsPanier = this.user?.panier;
-        this.wallet = this.user.wallet;
-        // this.panier = this.user.panier;
+    this.userService.userSubject.subscribe(
+      (user: User | null) => {
+        if (!user) return;
+        else {
+          this.user = user;
+          // this.panier = this.user.panier;
+          // this.materielsPanier = this.user.panier;
+          this.wallet = this.user.wallet;
+          // this.panier = this.user.panier;
+          // console.log('user first subscribe on pannier : ', this.materielsPanier);
+          // console.log('struct user : ', this.user);
+          
+          // console.log('Panier : ', typeof(this.user.panier));
 
-        console.log('Panier : ', this.materielsPanier);
+          for (let materiel of this.user.panier.materiels) {
+            // console.log('caca', materiel.price);
 
-        for(let materiel of this.user.panier) {
-          this.total += materiel.materiels.price;
-        }
+            this.total += materiel.price;
+          }
 
-        if(this.wallet >= 0) {
-          this.classBudget = 'budget-done';
-        } else {
-          this.classBudget = 'budget-insuffisant';
-          alert('Budget insuffisant ! ')
+          if (this.wallet >= 0) {
+            this.classBudget = 'budget-done';
+          } else {
+            this.classBudget = 'budget-insuffisant';
+            alert('Budget insuffisant ! ')
+          }
         }
       }
     );
 
     this.materielsSubscription = this.materielsService.materielSubject.subscribe(
-      (materiels : Material[]) => {
+      (materiels: Material[]) => {
         this.materiels = materiels;
       }
     )
@@ -79,23 +86,34 @@ export class PanierComponent implements OnInit {
 
   removeOneMateriel(i: number) {
     // alert('prix dans panier : ' + nombre);
-    if (this.user.panier[i].nombreDeCommande > 1) {
+    if (this.user.panier.nombreDeCommande > 1) {
       this.user.panier[i].nombreDeCommande--;
+      for (let materiel of this.materiels) {
+        if (materiel == this.user.panier[i].materiels) {
+          materiel.nbrInStock++;
+        }
+      }
       this.user.wallet += this.user.panier[i].materiels.price;
 
-    } else if(this.user.panier[i].nombreDeCommande == 1) {
+    } else if (this.user.panier[i].nombreDeCommande == 1) {
       this.user.wallet += this.user.panier[i].materiels.price;
+      for (let materiel of this.materiels) {
+        if (materiel == this.user.panier[i].materiels) {
+          materiel.nbrInStock++;
+        }
+      }
       this.user.panier.splice(i, 1);
     } else {
       alert('Stock epuisé !!');
     }
 
+    this.materielsService.emitMaterielSubject(this.materiels);
     this.userService.emitUserSubject(this.user);
   }
 
-  removeAllMateriel (i: number) {
+  removeAllMateriel(i: number) {
     // this.user.panier[i].materiels.price;
-    while(this.user.panier[i].nombreDeCommande !== 0) {
+    while (this.user.panier[i].nombreDeCommande !== 0) {
       this.user.wallet += this.user.panier[i].materiels.price;
       this.user.panier[i].nombreDeCommande--;
       // console.log('caca')

@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user');
+const materielsRoutes = require('./routes/materiels.router');
 const express = require('express');
 const app = express();
 
 mongoose.connect('mongodb://localhost:27017/materialsSale', {
-
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -23,6 +23,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
-
+app.use('/api/materiels', materielsRoutes);
 
 module.exports = app;

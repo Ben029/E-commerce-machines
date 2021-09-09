@@ -21,37 +21,33 @@ export class MaterielsListComponent implements OnInit, OnDestroy {
 
   // qui va permettre d' afficher le panier
   authStatus: boolean = false;
-  user : User;
-  added : boolean = false;
-  panierUser: any[];
+  user: User;
+  added: boolean = false;
+  panierUser: Panier[];
   isAuth = false;
-  materiels : Material[] = [];
-  addArray : boolean[] = [];
+  materiels: Material[] = [];
+  addArray: boolean[] = [];
   panierLenght = 0;
   nombre: number;
   name: string;
   image: string;
 
-  userSubscription : Subscription = new Subscription();
-  materielsSubscription : Subscription = new Subscription();
-  nombreDeCommandeSubscription : Subscription = new Subscription();
+  userSubscription: Subscription = new Subscription();
+  materielsSubscription: Subscription = new Subscription();
+  nombreDeCommandeSubscription: Subscription = new Subscription();
 
   constructor(private router: Router, private userService: UserService, private materielsService: MaterielsService, private authService: AuthService) { }
 
   ngOnInit() {
+    this.onGetAllMaterial();
     this.userService.userSubject.subscribe(
-      (user: User|null) => {
-        // alert('caca')
-        console.log('userrrrr ' , user)
+      (user: User | null) => {
         if (user) {
-          this.user = user; 
+          // console.log('userrrrr ', user.id)
+          console.log('uuuuuussssssererrrrr : ', user)
+          this.user = user;
           this.panierUser = this.user.panier;
-          // this.panierLenght = this.user.panier.length;
           this.authStatus = this.user.isAuth;
-          // alert('status : ' + this.authStatus)
-          this.name = this.user.name;
-          console.log('name : ' + this.name)
-          this.image = this.user.image;
         }
       }
     );
@@ -60,77 +56,105 @@ export class MaterielsListComponent implements OnInit, OnDestroy {
     this.materielsSubscription = this.materielsService.materielSubject.subscribe(
       (materiels: Material[]) => {
         console.log('Subscribe to materiels');
+        for(let material of materiels) {
+        console.log('id :  ', material._id);
+        }
         this.materiels = materiels;
       }
     );
 
-    // this.nombreDeCommandeSubscription = this.materielsService.nombreInPannierSubject.subscribe(
-    //   (nombre: number) => {
-    //     this.nombre = nombre;
-    //     console.log('nombre bonne : ' + this.nombre)
-    //   }
-    // );
-    this.materielsService.emitMaterielSubject();
-    if(this.user) {
+    this.materielsService.emitMaterielSubject(this.materiels);
+    console.log('aloan farany')
+    if (this.user) {
       this.userService.emitUserSubject(this.user);
     }
     // this.materielsService.emitNombreInPannierSubject(this.nombre);
   }
 
-  addPanier(i : number) {
-    if (this.user.wallet >= this.materiels[i].price && this.materiels[i].nbrInStock > 0) {
+  onGetAllMaterial() {
+    this.materielsService.getMateriels().then(
+      (data :any[]) => {
+        console.log('materials data : ', data);
+        this.materiels = data;
+        this.materielsService.emitMaterielSubject(this.materiels)
+      });
+  }
+
+
+  addPanier(_id: string) {
+    let currentMateriel = this.materiels.find(materiel => {
+      if(materiel._id === _id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if (currentMateriel) {
+      if (this.user.wallet >= currentMateriel.price && currentMateriel.nbrInStock > 0) {
         // this.materielsService.nombre;
         let added = false;
-    
+
         console.log('User :: ' + this.user)
         // soustrait le prix du materiels du porte feuille du client
-        this.user.wallet -= this.materiels[i].price;
-        
-        for(let materialTemp of this.user.panier) {
-          if(this.materiels[i] === materialTemp.materiels) {
+        this.user.wallet -= currentMateriel.price;
+        for (let materialTemp of this.user.panier) {
+          console.log("matatta : " + materialTemp);
+
+          if (currentMateriel === materialTemp.materiels) {
             materialTemp.nombreDeCommande += 1;
             console.log('Materiel deja ajoutée avant : ' + this.nombre);
-            materialTemp.materiels.nbrInStock--; 
-            // this.materiels[i].nbreInPanier++;
+            materialTemp.materiels.nbrInStock--;
             console.log('nombre dans panier : ' + materialTemp.nombreDeCommande);
 
             this.nombre = materialTemp.materiels.nbreInPanier;
             console.log('materiels deja ajoutée : ' + this.nombre);
             added = true;
           }
-        } 
+        }
+        let mat: Panier = {
+          materiels: {
+            'type': '',
+            'mark': '',
+            'description': '',
+            'price': 0,
+            'nbrInStock': 0,
+            'imgUrl': '',
+            'added': false,
+            'nbreInPanier': 0
+          },
+          nombreDeCommande: 1
+        };
         if (!added) {
-          let mat : Panier = {
-            materiels : {
-              'type':'',
-              'mark' : '',
-              'description': '',
-              'price': 0,
-              'nbrInStock': 0,
-              'imgUrl': '',
-              'added': false,
-              'nbreInPanier': 0
-            },
-            nombreDeCommande : 1
-          };
-
-          mat.materiels = this.materiels[i];
+          currentMateriel.nbrInStock--;
+          mat.materiels = currentMateriel;
           mat.nombreDeCommande = 1;
           this.user.panier.push(mat);
+          console.log('user id : ' + this.user._id);
+          this.userService.updateUser(this.user._id, currentMateriel._id, currentMateriel).then(() => {
+            console.log('update success')
+          }).catch((err) => {
+            console.log('update error : ' + err.message)
+          });
+
           // this.panierUser.push(mat);
-          // this.materiels[i].nbrInStock--; 
+          // this.materiels[i].nbrInStock--;
           // this.nombre = mat.nombreDeCommande;
         }
-    } else {
-      if (this.user.wallet < this.materiels[i].price) {
-        alert('Veuillez recharger votre compte');
-      } else if(this.materiels[i].nbrInStock === 0) {
-        alert('Ce produit est en rupture de stock');
+
+        this.materielsService.updateMateriel(currentMateriel._id, currentMateriel);
+        console.log('iiidddddd : ', currentMateriel._id );
+
+      } else {
+        if (this.user.wallet < currentMateriel.price) {
+          alert('Veuillez recharger votre compte');
+        } else if (currentMateriel.nbrInStock === 0) {
+          alert('Ce produit est en rupture de stock');
+        }
       }
+      // this.nombre = this.materiels[i].nbreInPanier;
+      this.materielsService.emitNombreInPannierSubject(this.nombre);
+      this.userService.emitUserSubject(this.user);
     }
-    // this.nombre = this.materiels[i].nbreInPanier;
-    this.materielsService.emitNombreInPannierSubject(this.nombre);
-    this.userService.emitUserSubject(this.user);
   }
 
   ngOnDestroy() {

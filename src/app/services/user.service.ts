@@ -16,30 +16,15 @@ export class UserService {
 
   userSubject = new BehaviorSubject<User|null>(null);
   userSubscription = new Subscription();
+  apiUrl = 'http://localhost:3000/api/auth/updateUser';
 
-  public user : User = {
-    name: 'Riana Ben Andriarinaivo',
-    email: 'rianaben002@gmail.com',
-    password: '123456',
-    panier : [],
-    wallet: 25500,
-    isAuth : false,
-    image: 'https://disney-planet.fr/wp-content/uploads/2015/01/timon-personnage-le-roi-lion-01.jpg'
-  };
+  // public user : User;
 
   constructor(private http: HttpClient) {
     this.userSubject.asObservable();
   }
 
   ngOnInit() {
-    // this.userSubscription = this.userSubject.subscribe(
-    //   (user : User) => {
-    //     this.user = user;
-    //     console.log('User zfef : : : ' + this.user);
-    //     this.emitUserSubject(this.user);
-    //   }
-    // )
-    
   }
 
   emitUserSubject(user: User) {
@@ -47,15 +32,11 @@ export class UserService {
     this.userSubject.next(user);
   }
 
-  getPanier() {
-    this.http.get<Panier[]>('http://localhost:3000/').subscribe(
-      (materiels) => {
-        this.user.panier = materiels;
-      },
-      (error) => {
-        console.log('Erreur du get ' + error);
-      }
-    );
+  updateUser(userId : string, idMaterial : string, material : Material) {
+    return <Promise<any>> this.http.put(`${this.apiUrl}/${userId}/${idMaterial}`, material).toPromise();
   }
+
+
+
 
 }

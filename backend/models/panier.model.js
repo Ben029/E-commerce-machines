@@ -1,15 +1,13 @@
+// import { Types, Schema, model } from 'mongoose';
 const mongoose = require('mongoose');
-const Material = require('./materiel.model');
 const ObjectId = mongoose.Types.ObjectId;
 
 const panierSchema = mongoose.Schema({
-    materiels: {
+    materiels: [{
         type: ObjectId,
-        ref: 'Material'
-    },
-    nombreDeCommande: {
-        type: Number
-    }
+        ref: 'materielpanier'
+    }]
 });
 
-module.exports = mongoose.model('Panier', panierSchema);
+module.exports = mongoose.model('panier', panierSchema);
+// export default model('Panier', panierSchema);

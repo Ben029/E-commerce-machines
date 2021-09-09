@@ -16,29 +16,18 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.authSubscription = this.authService.authSubject.subscribe(
+    this.authService.authSubject.subscribe(
       (value: boolean) => {
-          this.authStatus = this.authService.isAuthentified;
+          this.authStatus = value;
       }
     );
     this.authStatus = this.authService.isAuthentified;  
   }
 
-
-
-  // onSignIn(): void {
-  //   this.authService.signIn().then(
-  //     () => {
-  //       // this.authStatus = this.authService.isAuthentified;
-  //       this.authService = this
-  //       console.log('Sign in successful ! ');
-  //       this.router.navigate(['/materiels-list']);
-  //     });
-  // }
-
   onSignOut() {
     this.authService.signOut();
     this.authStatus = this.authService.isAuthentified;
+    this.authService.emitStateSubject(this.authStatus);
     this.router.navigate(['/auth']);
   }
 

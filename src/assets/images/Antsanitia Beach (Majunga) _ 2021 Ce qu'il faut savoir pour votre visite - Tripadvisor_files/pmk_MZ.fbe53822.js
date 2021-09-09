@@ -1,0 +1,1 @@
+(this.$WP=this.$WP||[]).push(["pmk_MZ",(a,t)=>{"use strict";var e,l,i=({show:a,fixed:t=!1})=>a?e.createElement("div",{className:l("_3m6lohmL",t&&"_1FNDxSoQ"),"data-automation":"loadingBar"}):null;return[()=>{a("default",i)},[a=>e=a,a=>l=a.default]]},["cDcdfi","jSLlaY"]]);

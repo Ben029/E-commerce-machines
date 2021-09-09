@@ -1,1 +1,61 @@
-<p>materiel-form works!</p>
+<div class="bg-container">
+    <h2>Ajouter un nouveau produit</h2>
+    <div class="big-container row">
+        <div class="container col-6">
+            <img src="../../../assets/images/np.jpg" alt="">
+        </div>
+
+        <div class="container col-6">
+            <form [formGroup]="materielForm" (ngSubmit)="onSaveProducts()">
+                <div class="form-grp">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Type</mat-label>
+                        <input matInput placeholder="ecran, pc, uc, etc..." formControlName="type">
+                        <mat-icon matSuffix>inventory_2</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="form-grp">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Marque</mat-label>
+                        <input matInput placeholder="Acer, Dell, etc..." formControlName="marque">
+                        <mat-icon matSuffix>category</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="form-grp">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Description</mat-label>
+                        <input matInput placeholder="Descriptions" formControlName="description">
+                        <mat-icon matSuffix>content_paste</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="form-grp">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Prix</mat-label>
+                        <input matInput placeholder="$" formControlName="prix">
+                        <mat-icon matSuffix>paid</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="form-grp">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Nombre dans le stock</mat-label>
+                        <input matInput formControlName="nbreDansStocks">
+                        <mat-icon matSuffix>plus_one</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="form-grp">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Image</mat-label>
+                        <input matInput formControlName="image">
+                        <mat-icon matSuffix>photo_size_select_actual</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <button class="btn" type="submit">
+                Enregistrer
+            </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- <img src="/src/assets/images/a-l-moheR9rdRGY-unsplash.jpg" alt=""> -->
+</div>

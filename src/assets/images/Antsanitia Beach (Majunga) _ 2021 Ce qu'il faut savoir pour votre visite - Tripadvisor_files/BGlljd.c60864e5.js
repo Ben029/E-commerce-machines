@@ -1,0 +1,1 @@
+(this.$WP=this.$WP||[]).push(["BGlljd",(a,t)=>{"use strict";return[()=>{a({MapProviderAutonavi:"ta-maps-autonavi",MapProviderCitymaps:"ta-maps-citymaps",MapProviderGoogle:"ta-maps-google"})},[]]},[]]);

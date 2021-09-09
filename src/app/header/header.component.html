@@ -1,25 +1,25 @@
-<p class="head">
-    <mat-toolbar color="accent">
-        <button *ngIf="!authStatus" routerLink='auth' mat-button routerLinkActive="active">
-            <mat-icon>
+<div>
+    <p class="head d-fix">
+        <mat-toolbar color="accent">
+            <button *ngIf="!authStatus" routerLink='auth' mat-button routerLinkActive="active">
                 <mat-icon>
-                    login
+                        login
                 </mat-icon>
-            </mat-icon>
-            Sign In
-        </button>
+                Sign In
+            </button>
 
-        <span class="little-space"></span>
+            <span class="little-space"></span>
 
-        <button *ngIf="!authStatus" routerLink='auth/signup' mat-button routerLinkActive="active">
-                <mat-icon>perm_identity</mat-icon>
-            Sign up</button>
-        <span class="spacer"></span>
+            <button *ngIf="!authStatus" routerLink='auth/signup' mat-button routerLinkActive="active">
+                    <mat-icon>perm_identity</mat-icon>
+                Sign up</button>
+            <span class="spacer"></span>
 
-        <button *ngIf="authStatus" (click)="onSignOut()" mat-button routerLinkActive="active">
-            <mat-icon>
-                logout
-            </mat-icon>
-            Disconnect</button>
-    </mat-toolbar>
-</p>
+            <button *ngIf="authStatus" (click)="onSignOut()" mat-button routerLinkActive="active">
+                <mat-icon>
+                    logout
+                </mat-icon>
+                Disconnect</button>
+        </mat-toolbar>
+    </p>
+</div>

@@ -1,0 +1,1 @@
+(this.$WP=this.$WP||[]).push(["yl-o-X",(e,t)=>{"use strict";var a,c,l=e=>a.createElement("div",{className:"_367ZRyuP",onClick:e.onClick},a.createElement("span",{className:"_2qg4n2f_"},a.createElement(c,{name:e.icon})));return[()=>{e("default",l)},[e=>a=e,e=>c=e.default]]},["cDcdfi","pyY-iJ"]]);

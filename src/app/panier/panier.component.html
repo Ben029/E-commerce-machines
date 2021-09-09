@@ -6,9 +6,9 @@
 </div>
 
 
-<div *ngFor="let materiel of materielsPanier; let i=index" class="d-flex">
+<div *ngFor="let materiel of user.panier; let i=index" class="d-flex">
     <div class="box">
-        <img [src]="materiel.materiels.imgUrl" alt="">
+        <img class="size_img" [src]="materiel.materiels.imgUrl" alt="">
         <p>
             {{materiel.nombreDeCommande}} x {{materiel.materiels.type}} {{materiel.materiels.mark}} <br>{{materiel.materiels.description}}
         </p>
