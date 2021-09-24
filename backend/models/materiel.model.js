@@ -35,4 +35,4 @@ const materielSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('material', materielSchema);
+module.exports = mongoose.model('Material', materielSchema);

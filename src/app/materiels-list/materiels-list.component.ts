@@ -46,7 +46,7 @@ export class MaterielsListComponent implements OnInit, OnDestroy {
           // console.log('userrrrr ', user.id)
           console.log('uuuuuussssssererrrrr : ', user)
           this.user = user;
-          this.panierUser = this.user.panier;
+          // this.panierUser = this.user.panier;
           this.authStatus = this.user.isAuth;
         }
       }
@@ -113,6 +113,7 @@ export class MaterielsListComponent implements OnInit, OnDestroy {
         }
         let mat: Panier = {
           materiels: {
+            // 'id': '',
             'type': '',
             'mark': '',
             'description': '',

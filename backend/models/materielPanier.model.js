@@ -4,11 +4,11 @@ const ObjectId = mongoose.Types.ObjectId;
 const materielPanier = mongoose.Schema({
     materiel: {
         type: ObjectId,
-        ref: 'material'
+        ref: 'Material'
     },
     nombreDeCommande: {
         type: Number
     }
 });
 
-module.exports = mongoose.model('materielpanier', materielPanier);
+module.exports = mongoose.model('MaterielPanier', materielPanier);

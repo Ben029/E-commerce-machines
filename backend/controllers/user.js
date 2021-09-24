@@ -19,13 +19,21 @@ exports.signup = (req, res, next) => {
                 nbreInPanier: 0
             });
 
+            materiel.save()
+                .then(() => {
+                    console.log('materiel saved');
+                })
+                .catch(err => {
+                    console.log('erreur materiel saved');
+                })
+
             const matPanier = new MaterielPanier({
                 materiel: materiel._id,
                 nombreDeCommande: 0
             });
 
             matPanier.save().
-            then(() => {
+                then(() => {
                     console.log('ok');
                 })
                 .catch(err => {
@@ -47,7 +55,7 @@ exports.signup = (req, res, next) => {
                 image: ''
             });
 
-            panier._id = user._id;
+            matPanier._id = user._id;
 
             panier.save()
                 .then(() => console.log('panier creer'))
@@ -61,26 +69,27 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
+    console.log('User ao am requete : ', req.body.email);
+    // console.log('User ao am bd : ', );
     User.findOne({ email: req.body.email })
-        .populate({
-            path: 'panier',
-            populate: {
-                path: "materiels",
-                populate: {
-                    path: "materiel"
-                }
-            }
-        })
         .then(user => {
+            console.log('user : ', user);
             if (!user) {
                 return res.status(404).json({ message: 'Utilisateur non trouvée !' });
             }
-            console.log('uss : ', user.panier.materiels);
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
                         return res.status(401).json({ message: 'Mot de passe incorrect' });
                     } else {
+                      MaterielPanier.findById({ _id: user._id })
+                            .populate('materiel')
+                            .then((panier) => {
+                                console.log('Panier : ', panier);
+                                // user.panier = panier;
+                            })
+                            .catch(err => console.log('Erreur panier save :', err));
+
                         console.log('tab vavao : ', user.panier);
                         res.status(200).json({
                             user: user,

@@ -37,15 +37,15 @@ export class SigninComponent implements OnInit {
     const email = this.userSignin.get('email')?.value;
     const password = this.userSignin.get('password')?.value;
     alert('caca')
-    this.authService.signIn(email, password).then(  
+    this.authService.signIn(email, password).then(
       (dataUser: any) => {
         // console.log( dataUser.user.panier);
         // console.log('datadata : ', dataUser.user.panier)
         this.user = dataUser.user;
         // console.log('dsdsdsd : ' , this.user.panier);
-        
+
         // console.log('user ato am onsign in: ', this.user)
-        console.log('\n')
+        // console.log('\n')
         this.isAuthentified = true;
         this.authService.isAuthentified = this.isAuthentified;
         this.authService.emitStateSubject(this.isAuthentified);
@@ -54,7 +54,7 @@ export class SigninComponent implements OnInit {
         this.router.navigate(['materiels-list']);
       }
     )
-    .catch(error => {console.log('error signin : ' + error)})
+      .catch(error => { console.log('error signin : ' + error) })
 
   }
 
